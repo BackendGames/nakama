@@ -283,6 +283,20 @@ func (si *LocalStorageIndex) List(ctx context.Context, indexName, query string, 
 		return nil, err
 	}
 
+	// Sort the objects read from the db according to the results from the index as StorageReadObjects does not guarantee ordering of the results
+	objectIdToIdx := make(map[string]int, len(objects.Objects))
+	for i, o := range objects.Objects {
+		// Map storage object to its current index.
+		objectIdToIdx[fmt.Sprintf("%s.%s.%s", o.Collection, o.Key, o.UserId)] = i
+	}
+
+	sortedObjects := make([]*api.StorageObject, len(objects.Objects))
+	for i, r := range indexResults {
+		sortedObjects[i] = objects.Objects[objectIdToIdx[fmt.Sprintf("%s.%s.%s", r.Collection, r.Key, r.UserID)]]
+	}
+
+	objects.Objects = sortedObjects
+
 	return objects, nil
 }
 
