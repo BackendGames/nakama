@@ -290,9 +290,12 @@ func (si *LocalStorageIndex) List(ctx context.Context, indexName, query string, 
 		objectIdToIdx[fmt.Sprintf("%s.%s.%s", o.Collection, o.Key, o.UserId)] = i
 	}
 
-	sortedObjects := make([]*api.StorageObject, len(objects.Objects))
-	for i, r := range indexResults {
-		sortedObjects[i] = objects.Objects[objectIdToIdx[fmt.Sprintf("%s.%s.%s", r.Collection, r.Key, r.UserID)]]
+	sortedObjects := make([]*api.StorageObject, 0, len(objects.Objects))
+	for _, r := range indexResults {
+		index, ok := objectIdToIdx[fmt.Sprintf("%s.%s.%s", r.Collection, r.Key, r.UserID)]
+		if ok {
+			sortedObjects = append(sortedObjects, objects.Objects[index])
+		}
 	}
 
 	objects.Objects = sortedObjects
