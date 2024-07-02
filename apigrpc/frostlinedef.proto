@@ -19,4 +19,16 @@ message GetUserInfo {
 
  string location = 7;
 
+ string timezone = 8;
+
+ string coins = 9;
+
+ string gems = 10;
+
+ string xp = 11;
+
+ string level = 12;
+
+ string lastLogin = 13;
+
 }
