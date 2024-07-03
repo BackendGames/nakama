@@ -1,12 +1,13 @@
 syntax = "proto3";
 
-package nakama.api;
+package frostline.api;
+option go_package = "github.com/heroiclabs/nakama/v3/frostline";
 
 // Add one or more friends to the current user.
-message GetUserInfo {
- // The account id of a user.
+message UserInfoResponse {
+
  string id = 1;
- // The account username of a user.
+
  string username = 2;
 
  string email = 3;
@@ -31,4 +32,69 @@ message GetUserInfo {
 
  string lastLogin = 13;
 
+}
+
+message GetUserInventory {
+
+ string id = 1;
+
+ repeated InventoryItem items = 2;
+
+}
+
+message InventoryItem {
+
+ string id = 1;
+
+ string name = 2;
+ string description = 3;
+ string price = 4;
+ string currency = 5;
+ string imageUrl = 6;
+}
+
+message GetShopData {
+
+ string id = 1;
+
+ repeated ShopItem items = 2;
+
+}
+
+message ShopItem {
+
+ string id = 1;
+
+ string name = 2;
+ string description = 3;
+ string price = 4;
+ string currency = 5;
+ string imageUrl = 6;
+}
+
+message GetTransactionsList {
+
+ string id = 1;
+ repeated Transaction transactions = 2;
+
+}
+
+message Transaction {
+
+ string id = 1;
+ string name = 2;
+ string description = 3;
+}
+
+message GetTransactionResponse {
+
+ string id = 1;
+
+ string name = 2;
+ string description = 3;
+}
+
+message TransactionId {
+
+ string id = 1;
 }

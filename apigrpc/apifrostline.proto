@@ -15,35 +15,42 @@
 /**
  * The Nakama server RPC protocol for games and apps.
  */
- syntax = "proto3";
- package nakama.api;
+syntax = "proto3";
 
- import "frostlinedef.proto";
+package frostline.api;
+
+import "apigrpc.proto";
+import "frostlinedef.proto";
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+option go_package = "github.com/BackendGames/nakama/v3/frostline";
 
  /**
   * The Nakama RPC protocol service built with GRPC.
   */
  service Nakama {
    // Get User Account details.
-   rpc GetUserInfo (google.protobuf.Empty) returns (GetUserInfo) {
+  rpc GetUserInfo (google.protobuf.Empty) returns (UserInfoResponse) {
     option (google.api.http).get = "/v2/getuserinfo";
-   }
+  }
 
-   rpc GetInventory (google.protobuf.Empty) returns (frostlineapi.GetUserInventory) {
+   rpc GetInventory (google.protobuf.Empty) returns (GetUserInventory) {
     option (google.api.http).get = "/v2/getuserinventory";
    }
 
-   rpc GetShop (google.protobuf.Empty) returns (frostlineapi.GetShopData) {
+   rpc GetShop (google.protobuf.Empty) returns (GetShopData) {
     option (google.api.http).get = "/v2/getshopdata";
    }
 
    // Get purchased transactions
-   rpc GetTransactions (google.protobuf.Empty) returns (frostlineapi.GetTransactions) {
+   rpc GetTransactions (google.protobuf.Empty) returns (GetTransactionsList) {
     option (google.api.http).get = "/v2/getusertransactions";
    }
 
     // get spesific transactions for UserId
-   rpc GetTransactionInfo (frostlineapi.TransactionId) returns (frostlineapi.GetTransactionInfo) {
+   rpc GetTransactionInfo (TransactionId) returns (GetTransactionResponse) {
     option (google.api.http).get = "/v2/gettransactioninfo";
    }
 
